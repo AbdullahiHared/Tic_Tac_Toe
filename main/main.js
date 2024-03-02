@@ -101,3 +101,8 @@ const GameControll = () => {
 }
 
 GameControll();
+
+
+const ScreenController = () => {
+
+}

@@ -45,6 +45,7 @@
     "Node.js.main.js.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -70,6 +71,7 @@
       <workItem from="1708890689284" duration="6111000" />
       <workItem from="1709024497402" duration="3751000" />
       <workItem from="1709028313695" duration="3485000" />
+      <workItem from="1709104129364" duration="6830000" />
     </task>
     <servers />
   </component>
