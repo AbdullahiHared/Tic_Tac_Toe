@@ -10,6 +10,24 @@ const GameBoard = () => {
         }
     }
 
-    const getBoard = board;
-    return {board}
+    const getBoard = () => board;
+    return getBoard();
+}
+
+
+const informAboutBoard = () => {console.log("Choose the numbers between 0-8")};
+
+const GamePlayers = () => {
+    const players = [
+        {
+            name : prompt("Player One what is your name"),
+            marker : "X"
+        },
+        {
+            name : prompt("Player Two what is your name"),
+            marker : "O"
+        }
+    ];
+
+    return players;
 }
