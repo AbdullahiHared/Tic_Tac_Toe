@@ -3,15 +3,11 @@ const GameBoard = () => {
     const columns = 3;
     const board = [];
 
-    for (let i = 0; i < rows; i++) {
-        board[i] = [i];
-        for (let j = 0; j < columns; j++) {
-            board[i][j] = ""
-        }
+    for (let i = 0; i < rows * columns; i++) {
+        board.push([]); // Push an empty array for each cell
     }
 
-    const getBoard = () => board;
-    return getBoard();
+    return board;
 }
 
 
@@ -29,11 +25,13 @@ const GamePlayers = () => {
         }
     ];
 
-    return players;
+    const getPlayers = () => players;
+
+    return getPlayers();
 }
 
 const GameControll = () => {
-    const board = GameBoard;
+    const board = GameBoard();
     const playRound = (players) => {
         informAboutBoard();
         const playerOnePosition = parseInt(prompt("Player One, choose your position"));
@@ -75,4 +73,31 @@ const GameControll = () => {
         }
         return true;
     }
+
+    const checkWinner = (marker) => {
+        // Define winning combinations
+        const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontal
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
+            [0, 4, 8], [2, 4, 6] // Diagonal
+        ];
+
+        // Check each winning combination
+        for (let combination of winningCombinations) {
+            const [a, b, c] = combination;
+            if (board[a].includes(marker) && board[b].includes(marker) && board[c].includes(marker)) {
+                return true; // If a winning combination is found, return true
+            }
+        }
+        return false; // If no winning combination is found, return false
+    }
+
+    const players = GamePlayers();
+    let gameOver = false;
+    while (!gameOver) {
+        gameOver = playRound(players);
+    }
+
 }
+
+GameControll();
