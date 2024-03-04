@@ -1,14 +1,17 @@
 const GameBoard = () => {
+    const board = [];
     const rows = 3;
     const columns = 3;
-    const board = [];
 
-    for (let i = 0; i < rows * columns; i++) {
-        board.push([]); // Push an empty array for each cell
+    for (let i = 0; i < rows; i++) {
+        board[i] = [];
+        for (let j = 0; j < columns; j++) {
+            board[i][j] = "";
+        }
     }
 
     return board;
-}
+};
 
 const informAboutBoard = () => {
     console.log("Choose the numbers between 0-8");
@@ -17,11 +20,11 @@ const informAboutBoard = () => {
 const GamePlayers = () => {
     const players = [
         {
-            name: prompt("Player One what is your name"),
+            name: prompt("Player One, what is your name"),
             marker: "X"
         },
         {
-            name: prompt("Player Two what is your name"),
+            name: prompt("Player Two, what is your name"),
             marker: "O"
         }
     ];
@@ -29,8 +32,8 @@ const GamePlayers = () => {
     return players;
 };
 
-const GameControll = () => {
-    const board = GameBoard();
+const GameController = () => {
+    const board = GameBoard(); // Set the board variable
     const players = GamePlayers();
     let activePlayerIndex = 0; // Index of the active player in the players array
 
@@ -38,49 +41,64 @@ const GameControll = () => {
         activePlayerIndex = activePlayerIndex === 0 ? 1 : 0; // Switch active player index
     };
 
-    const playRound = () => {
+    const playRound = (row, column) => {
         informAboutBoard();
-        const playerPosition = parseInt(prompt(`${players[activePlayerIndex].name}, choose your position`));
 
-        if (!isNaN(playerPosition)) {
-            board[playerPosition].push(players[activePlayerIndex].marker);
-            console.log(board);
-
-            // Check for a winner after each round
-            if (checkWinner(players[activePlayerIndex].marker)) {
-                console.log(`${players[activePlayerIndex].name} is the winner!`);
+        if (!isNaN(row) && !isNaN(column)) {
+            if (board[row][column] === "") {
+                board[row][column] = players[activePlayerIndex].marker;
                 console.log(board);
-                return true; // End the game
-            }
-            if (fullBoard()) {
-                console.log("It's a draw!");
-                console.log(board);
-                return true; // End the game
-            }
 
-            switchPlayer(); // Switch to the next player
+                // Check for a winner after each round
+                if (checkWinner(players[activePlayerIndex].marker)) {
+                    console.log(`${players[activePlayerIndex].name} is the winner!`);
+                    console.log(board);
+                    return true; // End the game
+                }
+                if (fullBoard()) {
+                    console.log("It's a draw!");
+                    console.log(board);
+                    return true; // End the game
+                }
+
+                switchPlayer(); // Switch to the next player
+            } else {
+                console.log("Invalid move. Cell already taken.");
+            }
         } else {
-            console.log("Invalid input. Please enter a number between 0-8.");
+            console.log("Invalid input. Please enter valid row and column numbers.");
         }
         return false; // Game continues
     };
 
     const fullBoard = () => {
-        return board.every(cell => cell.length > 0); // Check if all cells are filled
+        for (let row of board) {
+            if (row.includes("")) {
+                return false; // There's still an empty cell
+            }
+        }
+        return true; // All cells are filled
     };
 
     const checkWinner = (marker) => {
         // Winning combinations
         const winningCombinations = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontal
-            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
-            [0, 4, 8], [2, 4, 6] // Diagonal
+            [[0, 0], [0, 1], [0, 2]], // Horizontal
+            [[1, 0], [1, 1], [1, 2]], // Horizontal
+            [[2, 0], [2, 1], [2, 2]], // Horizontal
+            [[0, 0], [1, 0], [2, 0]], // Vertical
+            [[0, 1], [1, 1], [2, 1]], // Vertical
+            [[0, 2], [1, 2], [2, 2]], // Vertical
+            [[0, 0], [1, 1], [2, 2]], // Diagonal
+            [[0, 2], [1, 1], [2, 0]]  // Diagonal
         ];
 
         // Check each winning combination
         for (let combination of winningCombinations) {
             const [a, b, c] = combination;
-            if (board[a].includes(marker) && board[b].includes(marker) && board[c].includes(marker)) {
+            if (board[a[0]][a[1]] === marker &&
+                board[b[0]][b[1]] === marker &&
+                board[c[0]][c[1]] === marker) {
                 return true; // If a winning combination is found, return true
             }
         }
@@ -88,15 +106,18 @@ const GameControll = () => {
     };
 
     // Return active player's name
-    const getActivePlayerName = () => {
-        return players[activePlayerIndex].name;
+    const getActivePlayer = () => {
+        const activePlayerName = players[activePlayerIndex].name;
+        const activePlayerMarker = players[activePlayerIndex].marker;
+        return {activePlayerName, activePlayerMarker};
     };
 
-    return { playRound, getActivePlayerName, board };
+    return {playRound, getActivePlayer, board}; // Return the board property
 };
 
+
 const ScreenController = () => {
-    const game = GameControll();
+    const game = GameController();
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
 
@@ -105,41 +126,42 @@ const ScreenController = () => {
         boardDiv.innerHTML = "";
 
         // Get the newest version of the board and player turn
-        const board = game.board;
-        const activePlayer = game.getActivePlayerName();
+        const activePlayer = game.getActivePlayer();
 
         // Display player's turn
-        playerTurnDiv.textContent = `${activePlayer}'s turn...`;
+        playerTurnDiv.textContent = `${activePlayer.activePlayerName}'s turn...`;
 
         // Render the game board
-        board.forEach((row, rowIndex) => {
-            row.forEach((cell, columnIndex) => {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
                 // Create a button for each cell
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
-                cellButton.textContent = cell; // Assuming cell is already a string ('X' or 'O')
+                cellButton.textContent = game.board[i][j]; // Set the text content of the cell button to the marker in the board array
 
                 // Attach a click event handler to each cell button
                 cellButton.addEventListener("click", () => {
-                    // Call playRound function with the clicked column index
-                    game.playRound(rowIndex, columnIndex);
-                    // Update the screen after the round
-                    updateScreen();
+                    if (cellButton.textContent === '') { // Check if the cell is empty
+                        cellButton.textContent = activePlayer.activePlayerMarker; // Set the marker of the active player
+                        // Call playRound function with the clicked cell index
+                        game.playRound(i, j);
+                        // Update the screen after the round
+                        updateScreen();
+                    }
                 });
 
                 // Append the cell button to the board container
                 boardDiv.appendChild(cellButton);
-            });
+            }
             // Add a line break after each row
             const br = document.createElement("br");
             boardDiv.appendChild(br);
-        });
+        }
     };
 
     // Initial screen update
     updateScreen();
 };
 
-
+// Call ScreenController to start the game
 ScreenController();
-

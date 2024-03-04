@@ -1,0 +1,35 @@
+
+body {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    background:rgba(0,0,0,0.78);
+}
+
+.container {
+    display:flex;
+    flex-direction:column;
+    background:rgba(157,157,157,0.78);
+    justify-content:center;
+    align-self:center;
+    align-content:center;
+    width:50vw;
+    height:65vh;
+
+}
+
+.board {
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    background-color:white;
+    width:200px;
+    height:200px;
+    border-radius:10px;
+    margin-left:50px;
+}
+
+.cell {
+    background-color:blue;
+    width:40px;
+    height:40px;
+}
