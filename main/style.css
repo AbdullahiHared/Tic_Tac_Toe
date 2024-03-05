@@ -9,19 +9,13 @@ body {
 .container {
     display:flex;
     flex-direction:column;
-    background:rgba(157,157,157,0.78);
+    gap:20px;
     justify-content:center;
-    align-self:center;
-    align-content:center;
-    width:50vw;
-    height:65vh;
-
+    align-items:center;
+    margin:50px;
 }
 
 .board {
-    display:grid;
-    grid-template-columns: repeat(3,1fr);
-    background-color:white;
     width:200px;
     height:200px;
     border-radius:10px;
@@ -29,7 +23,8 @@ body {
 }
 
 .cell {
-    background-color:blue;
-    width:40px;
-    height:40px;
+    background:lightblue;
+    border:1px solid black;
+    width:60px;
+    height:60px;
 }

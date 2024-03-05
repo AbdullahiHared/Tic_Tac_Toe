@@ -42,22 +42,22 @@ const GameController = () => {
     };
 
     const playRound = (row, column) => {
-        informAboutBoard();
+        const resultDiv = document.querySelector('.result');
+        const currentPlayerDiv = document.querySelector('.turn');
 
         if (!isNaN(row) && !isNaN(column)) {
             if (board[row][column] === "") {
                 board[row][column] = players[activePlayerIndex].marker;
-                console.log(board);
 
                 // Check for a winner after each round
                 if (checkWinner(players[activePlayerIndex].marker)) {
-                    console.log(`${players[activePlayerIndex].name} is the winner!`);
-                    console.log(board);
+                    resultDiv.textContent = (`${players[activePlayerIndex].name} is the winner!`);
+                    currentPlayerDiv.textContent = "";
                     return true; // End the game
                 }
                 if (fullBoard()) {
-                    console.log("It's a draw!");
-                    console.log(board);
+                    resultDiv.textContent = "It is a draw!";
+                    currentPlayerDiv.textContent = "";
                     return true; // End the game
                 }
 
@@ -164,4 +164,4 @@ const ScreenController = () => {
 };
 
 // Call ScreenController to start the game
-ScreenController();
+// ScreenController();
