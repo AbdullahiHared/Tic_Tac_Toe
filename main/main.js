@@ -35,15 +35,24 @@ const GamePlayers = () => {
 const GameController = () => {
     const board = GameBoard(); // Set the board variable
     const players = GamePlayers();
+    const gameResetBtn = document.querySelector('.restart');
     let activePlayerIndex = 0; // Index of the active player in the players array
 
     const switchPlayer = () => {
         activePlayerIndex = activePlayerIndex === 0 ? 1 : 0; // Switch active player index
     };
 
+    const resetgame = () => {
+        return location.reload();
+    }
+
+    gameResetBtn.addEventListener('click', function () {
+        resetgame();
+    });
     const playRound = (row, column) => {
         const resultDiv = document.querySelector('.result');
         const currentPlayerDiv = document.querySelector('.turn');
+        const gameRestartBtn = document.querySelector('.restart');
 
         if (!isNaN(row) && !isNaN(column)) {
             if (board[row][column] === "") {
@@ -52,12 +61,16 @@ const GameController = () => {
                 // Check for a winner after each round
                 if (checkWinner(players[activePlayerIndex].marker)) {
                     resultDiv.textContent = (`${players[activePlayerIndex].name} is the winner!`);
-                    currentPlayerDiv.textContent = "";
+                    resultDiv.style.display = "block";
+                    gameRestartBtn.style.display = "block";
+                    currentPlayerDiv.style.display = "none";
                     return true; // End the game
                 }
                 if (fullBoard()) {
                     resultDiv.textContent = "It is a draw!";
-                    currentPlayerDiv.textContent = "";
+                    resultDiv.style.display = "block";
+                    gameRestartBtn.style.display = "block";
+                    currentPlayerDiv.style.display = "none";
                     return true; // End the game
                 }
 
@@ -164,4 +177,4 @@ const ScreenController = () => {
 };
 
 // Call ScreenController to start the game
-// ScreenController();
+ScreenController();
