@@ -13,12 +13,10 @@ const GameBoard = () => {
     return board;
 };
 
-const informAboutBoard = () => {
-    console.log("Choose the numbers between 0-8");
-};
+console.log(GameBoard);
 
 const GamePlayers = () => {
-    const players = [
+    let players = [
         {
             name: prompt("Player One, what is your name"),
             marker: "X"
@@ -36,23 +34,17 @@ const GameController = () => {
     const board = GameBoard(); // Set the board variable
     const players = GamePlayers();
     const gameResetBtn = document.querySelector('.restart');
-    let activePlayerIndex = 0; // Index of the active player in the players array
+    let activePlayerIndex = 1; // Index of the active player in the players array
 
     const switchPlayer = () => {
-        activePlayerIndex = activePlayerIndex === 0 ? 1 : 0; // Switch active player index
+        activePlayerIndex = 1-activePlayerIndex; // Switch active player index
     };
 
-    const resetgame = () => {
-        return location.reload();
-    }
-
-    gameResetBtn.addEventListener('click', function () {
-        resetgame();
-    });
     const playRound = (row, column) => {
         const resultDiv = document.querySelector('.result');
         const currentPlayerDiv = document.querySelector('.turn');
         const gameRestartBtn = document.querySelector('.restart');
+        const boardDiv = document.querySelector('.board');
 
         if (!isNaN(row) && !isNaN(column)) {
             if (board[row][column] === "") {
@@ -64,6 +56,7 @@ const GameController = () => {
                     resultDiv.style.display = "block";
                     gameRestartBtn.style.display = "block";
                     currentPlayerDiv.style.display = "none";
+                    boardDiv.style.cursor = "notAllowed";
                     return true; // End the game
                 }
                 if (fullBoard()) {
@@ -137,9 +130,9 @@ const ScreenController = () => {
     const updateScreen = () => {
         // Clear the board
         boardDiv.innerHTML = "";
-
         // Get the newest version of the board and player turn
         const activePlayer = game.getActivePlayer();
+
 
         // Display player's turn
         playerTurnDiv.textContent = `${activePlayer.activePlayerName}'s turn...`;
@@ -151,6 +144,12 @@ const ScreenController = () => {
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
                 cellButton.textContent = game.board[i][j]; // Set the text content of the cell button to the marker in the board array
+
+                //Reset game
+                const gameResetBtn = document.querySelector('.restart');
+                gameResetBtn.addEventListener('click', function () {
+                   location.reload();
+                })
 
                 // Attach a click event handler to each cell button
                 cellButton.addEventListener("click", () => {
@@ -166,9 +165,7 @@ const ScreenController = () => {
                 // Append the cell button to the board container
                 boardDiv.appendChild(cellButton);
             }
-            // Add a line break after each row
-            const br = document.createElement("br");
-            boardDiv.appendChild(br);
+
         }
     };
 

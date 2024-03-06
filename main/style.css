@@ -7,7 +7,7 @@ body {
     font-family:Chiller;
 }
 
-.header, .result, .restart {
+.header, .result {
     background-color:rgba(6,6,8,0.2);
     padding:20px;
     font-size:2rem;
@@ -18,13 +18,15 @@ body {
 .container {
     display:flex;
     flex-direction:column;
-    gap:20px;
+    gap:50px;
     justify-content:center;
     align-items:center;
     margin:50px;
 }
 
 .board {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
     background:white;
     padding:10px;
     border-radius:10px;
@@ -37,6 +39,9 @@ body {
     border:1px solid #000000;
     width:70px;
     height:70px;
+    overflow-x:hidden;
+
+
 }
 
 .result, .restart {
@@ -49,11 +54,18 @@ body {
     font-size:25px;
 }
 
+.result {
+    max-height:10px;
+}
+
 .turn {
     color: rgb(208, 203, 203);
     font-weight:bold;
     font-size:40px;
+    margin-bottom:10px;
 }
+
+
 
 .results {
     display:flex;
@@ -63,10 +75,12 @@ body {
 }
 
 .restart {
-    width:100px;
-    height:70px;
-    border-radius:10px;
-    font-weight: initial;
-    font-family: Chiller;
+    width:10vw;
+    height:8vh;
+    background:transparent;
+    color:white;
+
+    font-family:Chiller;
 }
+
 
