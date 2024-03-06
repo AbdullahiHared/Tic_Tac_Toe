@@ -78,15 +78,17 @@ body {
     background:transparent;
     color:white;
 
+
+    position: relative;
+    top:10px;
     font-family:Chiller;
 }
 
 #winner {
     background:none;
-    display:none;
     font-size:3rem;
-    display:flex;
     position:relative;
+
 }
 
 
