@@ -35,7 +35,8 @@ body {
 .cell {
     background-color: rgba(6, 6, 8, 0.84);
     color: rgb(208, 203, 203);
-    font-weight:bolder;
+    font-weight:bold;
+    font-size:20px;
     border:1px solid #000000;
     width:70px;
     height:70px;
@@ -48,15 +49,11 @@ body {
     display:none;
     width:30vw;
     height:30px;
-    border:1px solid white;
     border-radius:10px;
     text-align:center;
     font-size:25px;
 }
 
-.result {
-    max-height:10px;
-}
 
 .turn {
     color: rgb(208, 203, 203);
@@ -67,11 +64,12 @@ body {
 
 
 
-.results {
+#gameResults {
     display:flex;
     justify-content:center;
     align-items:center;
     gap:10px;
+    margin:40px;
 }
 
 .restart {
@@ -81,6 +79,14 @@ body {
     color:white;
 
     font-family:Chiller;
+}
+
+#winner {
+    background:none;
+    display:none;
+    font-size:3rem;
+    display:flex;
+    position:relative;
 }
 
 
